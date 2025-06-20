@@ -206,7 +206,7 @@ export const WaifubotDB : WaifubotDBType[] = [
         year:"2011",
         company:"Shaft",
         img:"https://cdn.myanimelist.net/images/characters/14/111234.jpg",
-        level: 659,
+        level: 652,
         seleccionable:true
     },{
         id:23,
