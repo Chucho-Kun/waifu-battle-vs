@@ -7,7 +7,7 @@ export default function Cards() {
     const elegida = currentWaifu.length ? currentWaifu[0] : { id: 0, name: '', anime: '', year: '', company: '', img: '', level: 0 } 
 
   return (
-       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
+       <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
       {waifuListFull.map((waifu, i) => (
         ( anime === 'TODOS' || waifu.anime === anime) &&
         <button 

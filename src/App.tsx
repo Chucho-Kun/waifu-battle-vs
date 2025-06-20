@@ -43,20 +43,31 @@ useEffect( () => {
 
       <VentanaFlotante />
 
+      <hr className='mb-5' />
+
+    { currentWaifu.length > 0 && 
     <div className='flex justify-center items-center'>
+          <div className="flex items-center gap-4">
+            <div className="bg-white rounded p-6 flex flex-row items-center transition-colors">
+              <div className="bg-gray-200 rounded-md overflow-hidden flex-shrink-0 flex items-center justify-center mr-4">
+                <img src={ currentWaifu.length > 0 ? rival.img : '' } alt="Waifu" className="w-40 h-20 object-cover object-center rounded-xl shadow" />
+              </div>
+              <div className="flex flex-col justify-center h-full">
+                <h2 className="text-center text-lg font-bold text-pink-700">{ currentWaifu.length > 0 && rival.name }</h2>
+                <h5 className="text-center font-bold text-black">{ currentWaifu.length > 0 && rival.anime }</h5>
+              </div>
+            </div>
+          </div>
+    </div> }
+
+    <div className='flex justify-center items-center'>
+
         <button 
           disabled={currentWaifu.length < 1}
-          className={`mb-20 rounded-xl p-3 text-white uppercase font-bold w-2xl ${ currentWaifu.length < 1 ? 'opacity-50 cursor-default bg-gray-600' : 'cursor-pointer bg-indigo-600 hover:bg-indigo-700 transition-colors' }`}
+          className={`mb-20 rounded-xl p-3 text-white uppercase font-bold w-100 ${ currentWaifu.length < 1 ? 'opacity-50 cursor-default bg-gray-600' : 'cursor-pointer bg-indigo-600 hover:bg-indigo-700 transition-colors' }`}
           onClick={ () => setModal( true ) }
-          >{ currentWaifu.length < 1 ? 'selecciona una waifu' : `¡${ rival.name } TE RETA A DUELO!` }
+          >{ currentWaifu.length == 0 ? 'selecciona una waifu' : 'retar a duelo' }
         </button>
-
-
-         {/*<button 
-          className={`mb-20 rounded-xl p-3 text-white uppercase font-bold w-2xl ${ character.length < 1 ? 'opacity-50 cursor-default bg-gray-600' : 'cursor-pointer bg-indigo-600 hover:bg-indigo-700 transition-colors' }`}
-          onClick={ () => console.log( waifuSelected ) }
-          >MIRAR WAIFUS SELECCIONADAS
-        </button> */}
 
     </div>
     
