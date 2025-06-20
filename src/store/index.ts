@@ -21,7 +21,18 @@ import { devtools } from "zustand/middleware";
     rival: WaifubotDBType
     setRival: () => void
     selectWaifu: ( idWaifu : number ) => void
+    availableAnimes: WaifubotDBType[]
+    ordenaAnime: () => void
+    animesperYear: () => void
 }
+
+/*const getAvailableAnimes = () => {
+  WaifubotDB
+    .filter(w => w.seleccionable)
+    .filter((waifu, index, self) => self.findIndex(w => w.anime === waifu.anime) === index)
+    .sort((a, b) => Number(a.year) - Number(b.year)); 
+
+    } */
 
 export const useWaifuStore = create<WaifuState>()(
     devtools( ( set , get ) => ({
@@ -81,9 +92,24 @@ export const useWaifuStore = create<WaifuState>()(
             autoClose: 2000,
             hideProgressBar: true
         })
+    },
+    availableAnimes: [],
+    ordenaAnime: () => {
+        const availableAnimes = get().waifuListFull
+            .filter( w => w.seleccionable )
+            .filter( ( waifu , index , self ) => self.findIndex( w => w.anime === waifu.anime ) === index )
+
+        set( { availableAnimes } )
+    },
+    animesperYear: () => {
+        const availableAnimes = get().availableAnimes.sort( ( a , b ) => Number( a.year - Number( b.year ) ) )
+        set( { availableAnimes } )
     }
+
 }) ))
 
+/** //const animes = WaifubotDB.filter( ( waifu , index , self ) => self.findIndex( w => w.anime === waifu.anime ) === index)
+    //const animesbyYear = animes.sort( (a,b) => Number(a.year) - Number(b.year) ) */
 
 /**const handleCharacter = ( idWaifu : number ) => {
         const waifuData = waifuListFull.map( waifu => idWaifu === waifu.id ? waifu : null ).filter( waifu => waifu !== null ) 

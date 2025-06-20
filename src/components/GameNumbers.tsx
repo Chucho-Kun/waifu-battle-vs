@@ -11,7 +11,7 @@ export default function GameNumbers( { waifuLevel } : GameNumbersProps  ) {
     const [ waifuValores , setWaifuValores ] = useState( [ 'X' , 'X', 'X' ] )
     const [ rivalValores , setRivalValores ] = useState( [ 'X' , 'X', 'X' ] )
 
-    const { level , setLevel , resetCurrentWaifu , setModal , setWaifuList , rival } = useWaifuStore()
+    const { level ,  rival , ordenaAnime , setLevel  , resetCurrentWaifu , setModal , setWaifuList , setAnime } = useWaifuStore()
 
     const waifuArray = waifuLevel.toString().split('').map(Number) // = [ 1 , 5 , 8 ] dependiendo de la waifu
     const rivalArray = rival.level.toString().split('').map(Number) //  = [ 8 , 4 , 2 ] dependiendo de la rival
@@ -56,9 +56,10 @@ export default function GameNumbers( { waifuLevel } : GameNumbersProps  ) {
                 setModal(false)
                 resetCurrentWaifu()
                 setWaifuList( rival.id )
+                ordenaAnime()
 
                 toast.success(
-                    <div className="flex items-center gap-4 cursor-pointer" onClick={() => console.log('vivo en la notificacion')}>
+                    <div className="flex items-center gap-4 cursor-pointer" onClick={() => setAnime( rival.anime )}>
                         <img src={ rival.img } alt="Waifu" className="w-12 rounded-xl" />
                         <div>
                         <div className="font-bold text-white">¡Felicidades!</div>

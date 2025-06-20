@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
-  const { anime , setModal, currentWaifu , setAllWaifus , allWaifus , setAnime , rival } = useWaifuStore()
+  const { anime , setModal, currentWaifu , setAllWaifus , allWaifus , setAnime , rival , animesperYear , ordenaAnime } = useWaifuStore()
 
 useEffect( () => {
     const buttonAllWaifus = anime === 'TODOS' ? true : false
@@ -18,7 +18,14 @@ useEffect( () => {
   return (
     <>
      <div className="text-3xl text-center bg-pink-700 p-10 text-white font-black">WAIFU BATTLE VS</div>
-     <h2 className="text-2xl text-black font-bold p-4 ">Selecciona una Waifu de estos animes:</h2>
+     <h2 className="text-xl uppercase text-black font-bold pt-5 text-center">Selecciona una Waifu de estos animes:</h2>
+
+    <div className="flex gap-4 justify-center">
+     <button className='uppercase cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-500 p-2 rounded-md' onClick={ () => ordenaAnime() } >Orden original</button>
+     <button className='uppercase cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-500 p-2 rounded-md' onClick={ () => animesperYear() } >Ordenar por fecha</button>
+    </div>
+     
+     
      <Carrusel />
 
      <Cards />

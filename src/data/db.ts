@@ -98,7 +98,7 @@ export const WaifubotDB : WaifubotDBType[] = [
         year:"2011",
         company:"Shaft",
         img:"https://cdn.myanimelist.net/images/characters/14/141631.jpg",
-        level: 666,
+        level: 766,
         seleccionable:false
     },{
         id:11,
@@ -269,7 +269,7 @@ export const WaifubotDB : WaifubotDBType[] = [
         year:"2006",
         company:"Studio Deen",
         img:"https://cdn.myanimelist.net/images/characters/14/346384.jpg",
-        level: 778,
+        level: 678,
         seleccionable:false
     },{
         id:30,
