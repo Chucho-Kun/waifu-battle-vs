@@ -5,10 +5,13 @@ import VentanaFlotante from './components/VentanaFlotante';
 import { useWaifuStore } from './store';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import VentanaFinal from './components/VentanaFinal';
 
 function App() {
 
-  const { anime , setModal, currentWaifu , setAllWaifus , allWaifus , setAnime , rival , animesperYear , ordenaAnime } = useWaifuStore()
+  const { anime , setModal, currentWaifu , setAllWaifus , allWaifus , setAnime , rival , animesperYear , ordenaAnime , lastWaifus } = useWaifuStore()
+
+  console.log( {lastWaifus} )
 
 useEffect( () => {
     const buttonAllWaifus = anime === 'TODOS' ? true : false
@@ -17,17 +20,17 @@ useEffect( () => {
 
   return (
     <>
+    <VentanaFinal />
      <div className="text-3xl text-center bg-pink-700 p-10 text-white font-black">WAIFU BATTLE VS</div>
-     <h2 className="text-xl uppercase text-black font-bold pt-5 text-center">Selecciona una Waifu de estos animes:</h2>
+     <h2 className="text-2xl uppercase text-black font-bold pt-5 text-center">Selecciona una Waifu de estos animes:</h2>
 
+     { lastWaifus < 26 && < h2 className="text-2xl uppercase text-red-700 font-black pt-5 text-center">Waifus Restantes: { lastWaifus }</h2> }
+     
+     <Carrusel />
     <div className="flex gap-4 justify-center">
      <button className='uppercase cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-500 p-2 rounded-md' onClick={ () => ordenaAnime() } >Orden original</button>
      <button className='uppercase cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-500 p-2 rounded-md' onClick={ () => animesperYear() } >Ordenar por fecha</button>
     </div>
-     
-     
-     <Carrusel />
-
      <Cards />
 
   {/*<div className="container mx-auto">

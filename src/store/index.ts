@@ -19,20 +19,15 @@ import { devtools } from "zustand/middleware";
     challenger: string
     setChallenger: ( challenger : string ) => void
     rival: WaifubotDBType
+    lastWaifus: number
     setRival: () => void
     selectWaifu: ( idWaifu : number ) => void
     availableAnimes: WaifubotDBType[]
     ordenaAnime: () => void
     animesperYear: () => void
+    modalFinal: boolean
+    setModalFinal: ( modalFinal : boolean ) => void
 }
-
-/*const getAvailableAnimes = () => {
-  WaifubotDB
-    .filter(w => w.seleccionable)
-    .filter((waifu, index, self) => self.findIndex(w => w.anime === waifu.anime) === index)
-    .sort((a, b) => Number(a.year) - Number(b.year)); 
-
-    } */
 
 export const useWaifuStore = create<WaifuState>()(
     devtools( ( set , get ) => ({
@@ -75,9 +70,12 @@ export const useWaifuStore = create<WaifuState>()(
         set( { challenger } )
     },
     rival:null,
+    lastWaifus: 100,
     setRival: () => {
         
         const hiddenWaifus = get().waifuListFull.filter( waifu => !waifu.seleccionable )
+        set( { lastWaifus : hiddenWaifus.length } )
+        console.log( {hiddenWaifus} )
         const sortbyLevel = hiddenWaifus.sort( (a,b) => a.level - b.level )
         set({ rival :  sortbyLevel[0] }) 
         
@@ -102,8 +100,12 @@ export const useWaifuStore = create<WaifuState>()(
         set( { availableAnimes } )
     },
     animesperYear: () => {
-        const availableAnimes = get().availableAnimes.sort( ( a , b ) => Number( a.year - Number( b.year ) ) )
+        const availableAnimes = get().availableAnimes.sort( ( a , b ) => Number( a.year ) - Number( b.year ) ) 
         set( { availableAnimes } )
+    },
+    modalFinal: false,
+    setModalFinal: ( modalFinal ) => {
+        set( { modalFinal } )
     }
 
 }) ))

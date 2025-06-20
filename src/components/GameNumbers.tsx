@@ -11,7 +11,7 @@ export default function GameNumbers( { waifuLevel } : GameNumbersProps  ) {
     const [ waifuValores , setWaifuValores ] = useState( [ 'X' , 'X', 'X' ] )
     const [ rivalValores , setRivalValores ] = useState( [ 'X' , 'X', 'X' ] )
 
-    const { level ,  rival , ordenaAnime , setLevel  , resetCurrentWaifu , setModal , setWaifuList , setAnime } = useWaifuStore()
+    const { level ,  rival , lastWaifus , ordenaAnime , setLevel  , resetCurrentWaifu , setModal , setWaifuList , setAnime , setModalFinal } = useWaifuStore()
 
     const waifuArray = waifuLevel.toString().split('').map(Number) // = [ 1 , 5 , 8 ] dependiendo de la waifu
     const rivalArray = rival.level.toString().split('').map(Number) //  = [ 8 , 4 , 2 ] dependiendo de la rival
@@ -57,8 +57,29 @@ export default function GameNumbers( { waifuLevel } : GameNumbersProps  ) {
                 resetCurrentWaifu()
                 setWaifuList( rival.id )
                 ordenaAnime()
+                console.log( 'voy a disparar en ' , lastWaifus )
+                
+                if( lastWaifus == 1 ){
 
-                toast.success(
+                  setModalFinal( true )
+
+                  toast.success(
+                    <div className="flex items-center gap-4 cursor-pointer" onClick={() => setAnime( rival.anime )}>
+                        <img src={ rival.img } alt="Waifu" className="w-12 rounded-xl" />
+                        <div>
+                        <div className="font-bold text-white">¡Felicidades!</div>
+                        <div className="text-sm text-gray-200">¡Terminaste el juego!</div>
+                        </div>
+                    </div> ,{
+                    position: 'top-center',
+                    theme: "colored",
+                    autoClose: 5000,
+                    hideProgressBar: true
+                })
+
+                }else{
+
+                  toast.success(
                     <div className="flex items-center gap-4 cursor-pointer" onClick={() => setAnime( rival.anime )}>
                         <img src={ rival.img } alt="Waifu" className="w-12 rounded-xl" />
                         <div>
@@ -71,6 +92,10 @@ export default function GameNumbers( { waifuLevel } : GameNumbersProps  ) {
                     autoClose: 5000,
                     hideProgressBar: true
                 })
+
+                }
+
+                
 
             },800)
 

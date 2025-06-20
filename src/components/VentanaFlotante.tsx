@@ -5,13 +5,6 @@ export default function VentanaFlotante() {
 
     const { modal , setModal , currentWaifu , waifuListFull , rival } = useWaifuStore()
 
-    
-    /**const hiddenWaifus = waifuListFull.filter( waifu => !waifu.seleccionable )
-    const sortbyLevel = hiddenWaifus.sort( (a,b) => a.level - b.level )
-    const rival = sortbyLevel[0] */
-
-    //const { setChallenger } = useWaifuStore()
-    //setChallenger( rival.name )
 
   if (!modal) return null;
 
