@@ -75,7 +75,7 @@ export const useWaifuStore = create<WaifuState>()(
         
         const hiddenWaifus = get().waifuListFull.filter( waifu => !waifu.seleccionable )
         set( { lastWaifus : hiddenWaifus.length } )
-        console.log( {hiddenWaifus} )
+        //console.log( {hiddenWaifus} )
         const sortbyLevel = hiddenWaifus.sort( (a,b) => a.level - b.level )
         set({ rival :  sortbyLevel[0] }) 
         

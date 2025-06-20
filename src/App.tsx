@@ -11,7 +11,7 @@ function App() {
 
   const { anime , setModal, currentWaifu , setAllWaifus , rival , animesperYear , ordenaAnime , lastWaifus } = useWaifuStore()
 
-  console.log( {lastWaifus} )
+  //console.log( {lastWaifus} )
 
 useEffect( () => {
     const buttonAllWaifus = anime === 'TODOS' ? true : false
@@ -21,7 +21,12 @@ useEffect( () => {
   return (
     <>
     <VentanaFinal />
-     <div className="text-3xl text-center bg-pink-700 p-10 text-white font-black">WAIFU BATTLE VS</div>
+     <div className="text-3xl text-center bg-pink-700 p-10 text-white font-black">
+        WAIFU BATTLE VS
+        <div>
+          <span className="block text-pink-200 text-xs">v.1.2.0</span>
+        </div>
+    </div>
      <h2 className="text-2xl uppercase text-black font-bold pt-5 text-center">Selecciona una Waifu de estos animes:</h2>
 
      { lastWaifus < 26 && < h2 className="text-2xl uppercase text-red-700 font-black pt-5 text-center">Waifus Restantes: { lastWaifus }</h2> }

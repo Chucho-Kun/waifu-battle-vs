@@ -57,7 +57,7 @@ export default function GameNumbers( { waifuLevel } : GameNumbersProps  ) {
                 resetCurrentWaifu()
                 setWaifuList( rival.id )
                 ordenaAnime()
-                console.log( 'voy a disparar en ' , lastWaifus )
+                //console.log( 'voy a disparar en ' , lastWaifus )
                 
                 if( lastWaifus == 1 ){
 
