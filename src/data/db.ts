@@ -269,7 +269,7 @@ export const WaifubotDB : WaifubotDBType[] = [
         year:"2006",
         company:"Studio Deen",
         img:"https://cdn.myanimelist.net/images/characters/14/346384.jpg",
-        level: 608,
+        level: 778,
         seleccionable:false
     },{
         id:30,

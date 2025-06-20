@@ -34,7 +34,6 @@ export default function GameNumbers( { waifuLevel } : GameNumbersProps  ) {
         const nuevosValoresRival = [ ...rivalValores ]
         nuevosValoresRival[ index_ ] = result.valor_
         setRivalValores( nuevosValoresRival ) 
-        console.log(option+' jugando contra... '+result.valor_)
 
         if( Number( option ) > Number( result.valor_ ) ){
 

@@ -9,7 +9,6 @@ import { devtools } from "zustand/middleware";
     anime: string
     setAnime: ( anime : string ) => void
     currentWaifu: WaifubotDBType[]
-    addCurrentWaifu: ( waifu : WaifubotDBType[]) => void
     resetCurrentWaifu: () => void
     modal: boolean
     setModal: ( estado : boolean ) => void
@@ -21,6 +20,7 @@ import { devtools } from "zustand/middleware";
     setChallenger: ( challenger : string ) => void
     rival: WaifubotDBType
     setRival: () => void
+    selectWaifu: ( idWaifu : number ) => void
 }
 
 export const useWaifuStore = create<WaifuState>()(
@@ -36,15 +36,6 @@ export const useWaifuStore = create<WaifuState>()(
         set( { anime } )
     },
     currentWaifu: [],
-    addCurrentWaifu: ( currentWaifu ) => {
-        set( { currentWaifu } )
-        toast.success( `Has seleccionado a ${ currentWaifu[0].name }!` , {
-            position: 'top-center',
-            theme: "dark",
-            autoClose: 2000,
-            hideProgressBar: true
-        })
-    },
     resetCurrentWaifu: () => {
         set( { currentWaifu : [] } )
     },
@@ -77,9 +68,29 @@ export const useWaifuStore = create<WaifuState>()(
         
         const hiddenWaifus = get().waifuListFull.filter( waifu => !waifu.seleccionable )
         const sortbyLevel = hiddenWaifus.sort( (a,b) => a.level - b.level )
-        set({ rival : sortbyLevel.length > 0 ? sortbyLevel[0] : null }) 
+        set({ rival :  sortbyLevel[0] }) 
         
+    },
+    selectWaifu: ( idWaifu ) => {
+        const currentWaifu = get().waifuListFull.map( waifu => idWaifu === waifu.id ? waifu : null ).filter( waifu => waifu !== null )
+        set( { currentWaifu } )
+        get().setRival()
+        toast.success( `Has seleccionado a ${ currentWaifu[0].name }!` , {
+            position: 'top-center',
+            theme: "dark",
+            autoClose: 2000,
+            hideProgressBar: true
+        })
     }
 }) ))
 
-  //const [ allWaifus , setAllWaifus ] = useState( false )
+
+/**const handleCharacter = ( idWaifu : number ) => {
+        const waifuData = waifuListFull.map( waifu => idWaifu === waifu.id ? waifu : null ).filter( waifu => waifu !== null ) 
+        addCurrentWaifu( waifuData )
+        setRival()
+    } */
+  
+  
+  
+        //const [ allWaifus , setAllWaifus ] = useState( false )
