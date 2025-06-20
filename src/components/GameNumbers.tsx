@@ -95,8 +95,6 @@ export default function GameNumbers( { waifuLevel } : GameNumbersProps  ) {
 
                 }
 
-                
-
             },800)
 
         }else{
@@ -113,16 +111,13 @@ export default function GameNumbers( { waifuLevel } : GameNumbersProps  ) {
                 hideProgressBar: true
             })
 
-            setTimeout( () => {
-                setWaifuValores( [ 'X' , 'X', 'X' ] )
-                setRivalValores( [ 'X' , 'X', 'X' ] )
-                
+            setTimeout( () => { 
+              setWaifuValores( [ 'X' , 'X', 'X' ] ) 
+              setRivalValores( [ 'X' , 'X', 'X' ] ) 
             },500)
         }
 
     }
-
-
 
   return (
     <>

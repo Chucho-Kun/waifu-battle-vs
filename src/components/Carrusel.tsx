@@ -5,16 +5,6 @@ export default function Carrusel() {
     const { ordenaAnime , availableAnimes , setAnime , anime } = useWaifuStore()
     availableAnimes.length == 0 && ordenaAnime()
 
-    
-
-    /**    const animesDisponibles = waifuListFull
-      .filter( w => w.seleccionable )
-      .filter( ( waifu , index , self ) => self.findIndex( w => w.anime === waifu.anime ) === index ) */
-
-    //const animes = WaifubotDB.filter( ( waifu , index , self ) => self.findIndex( w => w.anime === waifu.anime ) === index)
-    //const animesbyYear = animes.sort( (a,b) => Number(a.year) - Number(b.year) )
-
-
   return (
      <div className="w-full overflow-x-auto">
       <div className="flex flex-row gap-4 p-4">

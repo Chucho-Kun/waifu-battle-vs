@@ -3,8 +3,7 @@ import GameNumbers from "./GameNumbers";
 
 export default function VentanaFlotante() {
 
-    const { modal , setModal , currentWaifu , waifuListFull , rival } = useWaifuStore()
-
+    const { modal , setModal , currentWaifu , rival } = useWaifuStore()
 
   if (!modal) return null;
 
@@ -48,7 +47,6 @@ export default function VentanaFlotante() {
                 <GameNumbers  waifuLevel={ currentWaifu[0].level }  />
 
         </div>
-
 
       </div>
     </div>

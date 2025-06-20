@@ -9,7 +9,7 @@ import VentanaFinal from './components/VentanaFinal';
 
 function App() {
 
-  const { anime , setModal, currentWaifu , setAllWaifus , allWaifus , setAnime , rival , animesperYear , ordenaAnime , lastWaifus } = useWaifuStore()
+  const { anime , setModal, currentWaifu , setAllWaifus , rival , animesperYear , ordenaAnime , lastWaifus } = useWaifuStore()
 
   console.log( {lastWaifus} )
 
