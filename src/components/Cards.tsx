@@ -4,13 +4,14 @@ import { useWaifuStore } from "../store"
 
 export default function Cards() {
     
-    const { anime , currentWaifu , addCurrentWaifu , waifuListFull } = useWaifuStore()
+    const { anime , currentWaifu , addCurrentWaifu , waifuListFull , setRival } = useWaifuStore()
 
     const elegida = currentWaifu.length ? currentWaifu[0] : { id: 0, name: '', anime: '', year: '', company: '', img: '', level: 0 } 
 
     const handleCharacter = ( idWaifu : number ) => {
         const waifuData = waifuListFull.map( waifu => idWaifu === waifu.id ? waifu : null ).filter( waifu => waifu !== null ) 
         addCurrentWaifu( waifuData )
+        setRival()
     }
 
   return (

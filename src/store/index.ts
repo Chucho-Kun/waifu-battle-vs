@@ -19,12 +19,12 @@ import { devtools } from "zustand/middleware";
     setAllWaifus: ( allWaifus : boolean ) => void
     challenger: string
     setChallenger: ( challenger : string ) => void
-    rival: WaifubotDBType[]
+    rival: WaifubotDBType
     setRival: () => void
 }
 
 export const useWaifuStore = create<WaifuState>()(
-    devtools( ( set ) => ({
+    devtools( ( set , get ) => ({
     waifuListFull: WaifubotDB,
     setWaifuList: ( id ) => {
         set( ( state ) => ({
@@ -72,18 +72,14 @@ export const useWaifuStore = create<WaifuState>()(
     setChallenger: ( challenger ) => {
         set( { challenger } )
     },
-    rival:[],
+    rival:null,
     setRival: () => {
         
-        /*const hiddenWaifus = get().waifuListFull.filter( waifu => !waifu.seleccionable )
+        const hiddenWaifus = get().waifuListFull.filter( waifu => !waifu.seleccionable )
         const sortbyLevel = hiddenWaifus.sort( (a,b) => a.level - b.level )
-        set({ rival : [sortbyLevel[0]]}) */
+        set({ rival : sortbyLevel.length > 0 ? sortbyLevel[0] : null }) 
+        
     }
 }) ))
 
-
-/*const hiddenWaifus = waifuListFull.filter( waifu => !waifu.seleccionable )
-    const sortbyLevel = hiddenWaifus.sort( (a,b) => a.level - b.level )
-    const rival = sortbyLevel[0]
-     */
   //const [ allWaifus , setAllWaifus ] = useState( false )

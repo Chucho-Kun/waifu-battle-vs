@@ -4,24 +4,17 @@ import { useWaifuStore } from "../store"
 
 type GameNumbersProps = {
     waifuLevel: number
-    rivalLevel: number
-    rivalId: number
-    rivalName: string
-    rivalImg: string
 }
 
-export default function GameNumbers( { waifuLevel , rivalLevel , rivalId , rivalName , rivalImg } : GameNumbersProps  ) {
+export default function GameNumbers( { waifuLevel } : GameNumbersProps  ) {
 
     const [ waifuValores , setWaifuValores ] = useState( [ 'X' , 'X', 'X' ] )
     const [ rivalValores , setRivalValores ] = useState( [ 'X' , 'X', 'X' ] )
 
-    const { level , setLevel , resetCurrentWaifu , setModal , setWaifuList } = useWaifuStore()
+    const { level , setLevel , resetCurrentWaifu , setModal , setWaifuList , rival } = useWaifuStore()
 
-    const waifuArray = waifuLevel.toString().split('').map(Number)
-    const rivalArray = rivalLevel.toString().split('').map(Number)
-
-    //const waifuArray = [ 1 , 5 , 8 ]
-    //const rivalArray = [ 8 , 4 , 2 ]
+    const waifuArray = waifuLevel.toString().split('').map(Number) // = [ 1 , 5 , 8 ] dependiendo de la waifu
+    const rivalArray = rival.level.toString().split('').map(Number) //  = [ 8 , 4 , 2 ] dependiendo de la rival
 
         const rivalRandom  = () => {
         const index_ = Math.floor( Math.random() *rivalArray.length )
@@ -63,14 +56,14 @@ export default function GameNumbers( { waifuLevel , rivalLevel , rivalId , rival
             setTimeout( () => {
                 setModal(false)
                 resetCurrentWaifu()
-                setWaifuList( rivalId )
+                setWaifuList( rival.id )
 
                 toast.success(
                     <div className="flex items-center gap-4 cursor-pointer" onClick={() => console.log('vivo en la notificacion')}>
-                        <img src={ rivalImg } alt="Waifu" className="w-12 rounded-xl" />
+                        <img src={ rival.img } alt="Waifu" className="w-12 rounded-xl" />
                         <div>
                         <div className="font-bold text-white">¡Felicidades!</div>
-                        <div className="text-sm text-gray-200">Ya puedes jugar con { rivalName }</div>
+                        <div className="text-sm text-gray-200">Ya puedes jugar con { rival.name }</div>
                         </div>
                     </div> ,{
                     position: 'bottom-center',
