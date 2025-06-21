@@ -1,48 +1,138 @@
-# WAIFU BATTLE VS - React + TypeScript + Vite
+# Expense management app from a budget
+An app that lists expenses by category and displays a circle chart comparing them to your allocated monthly budget, changing from blue to red when less than 80% of your budget is left.
 
-A simple waifu card game to explore the interplay of Zustand in the treatment of the global state.
-
-the site is currently under development
+It also allows you to edit the characteristics of saved expenses or delete them by dragging them to the right or left.
+## Technologies
+React + Typescript + TailwindCSS and different libraries that are listed in the development commits
+## Deploy on Netlify
+Website hosted on netlify.app server
+[presupuesto-contextapi](https://presupuesto-contetextapi.netlify.app/)
 ## Developer Notes
-### Managed by Zustand
-#### src/store/index.ts
+### Managed by Context API
+#### src/reducers/budget-reducer.ts
 ```
-import { create } from "zustand";
-import type { WaifubotDBType } from "../data/db";
+import { v4 as uuidv4 } from 'uuid'
+import type { Category, DraftExpense, Expense } from "../types"
 
- export type WaifuState = {
-    anime: string
-    setAnime: ( anime : string ) => void
-    currentWaifu: WaifubotDBType[]
-    addCurrentWaifu: ( waifu : WaifubotDBType[]) => void
+export type BudgetActions = 
+    { type: 'add-budget' , payload : { budget: number} } |
+    { type: 'show-modal' } |
+    { type: 'close-modal' } |
+    { type: 'add-expense' , payload: { expense: DraftExpense}} |
+    { type: 'remove-expense' , payload: { id: Expense['id'] }} |
+    { type: 'get-expense-by-id' , payload: { id: Expense['id'] } } |
+    { type: 'update-expense' , payload: { expense: Expense } } |
+    { type: 'reset-app' } |
+    { type: 'add-filter-category' , payload: { id: Category['id'] } }
+
+export type BudgetState = {
+    budget: number
     modal: boolean
-    setModal: ( estado : boolean ) => void
-    level: number,
-    setLevel: ( level : number ) => void
-    allWaifus: boolean
-    setAllWaifus: ( allWaifus : boolean ) => void
+    expenses: Expense[]
+    editingId: Expense['id']
+    currentCategory: Category['id']
 }
 
-export const useWaifuStore = create<WaifuState>( ( set ) => ({
-    anime: '',
-    setAnime: ( anime ) => {
-        set( { anime } )
-    },
-    currentWaifu: [],
-    addCurrentWaifu: ( currentWaifu ) => {
-        set( { currentWaifu } )
-    },
+const initialBudget = () : number => {
+    const localStorageBudget = localStorage.getItem('budget')
+    return localStorageBudget ? +localStorageBudget : 0
+}
+
+const localStorageExpenses = () : Expense[]=> {
+    const localStorageExpenses = localStorage.getItem('expenses')
+    return localStorageExpenses ? JSON.parse( localStorageExpenses ) : []
+}
+
+export const initialState : BudgetState = {
+    budget : initialBudget(),
     modal: false,
-    setModal: ( modal ) => {
-        set( { modal } )
-    },
-    level: 680,
-    setLevel: ( level ) => {
-        set( { level } )
-    },
-    allWaifus: false,
-    setAllWaifus: ( allWaifus ) => {
-        set( { allWaifus } )
+    expenses: localStorageExpenses(),
+    editingId: '',
+    currentCategory: ''
+}
+
+const createExpense = ( draftExpense : DraftExpense ) : Expense => {
+    return { 
+      ...draftExpense,
+      id: uuidv4()  
+     }
+}
+
+export const budgetReducer = (
+    state: BudgetState = initialState,
+    action : BudgetActions
+
+) => {
+
+    if( action.type === 'add-budget' ){
+        return {
+            ...state,
+            budget: action.payload.budget
+        }
     }
-}) )
+
+    if( action.type === 'show-modal' ){
+        return {
+            ...state,
+            modal: true
+        }
+    }
+
+    if( action.type === 'close-modal' ){
+        return {
+            ...state,
+            modal: false,
+            editingId: ''
+        }
+    }
+
+    if( action.type === 'add-expense' ){
+        const expense = createExpense( action.payload.expense )
+        return {
+            ...state,
+            expenses: [...state.expenses , expense ],
+            modal: false
+        }
+    }
+
+    if( action.type === 'remove-expense' ){
+        return {
+            ...state,
+            expenses: state.expenses.filter( expense => expense.id !== action.payload.id )            
+        }
+    }
+
+    if( action.type === 'get-expense-by-id' ){
+        return {
+            ...state,
+            editingId: action.payload.id,
+            modal: true
+        }
+    }
+
+    if( action.type === 'update-expense' ){
+        return {
+            ...state,
+            expenses: state.expenses.map( expense => expense.id === action.payload.expense.id ? action.payload.expense : expense ),
+            modal: false,
+            editingId: ''
+        }
+    }
+ 
+    if( action.type === 'reset-app' ){
+        return {
+            ...state,
+            budget : 0,
+            expenses: [],
+        }
+    }
+
+     if( action.type === 'add-filter-category' ){
+        return {
+            ...state,
+            currentCategory: action.payload.id
+        }
+    }
+    return state
+}
 ```
