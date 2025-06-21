@@ -1,138 +1,128 @@
-# Expense management app from a budget
-An app that lists expenses by category and displays a circle chart comparing them to your allocated monthly budget, changing from blue to red when less than 80% of your budget is left.
+# A waifu card game
+A desktop website where you can compete against waifu cards from different anime, unlocking them after beating them in a rock-paper-scissors type game but with numbers.
 
-It also allows you to edit the characteristics of saved expenses or delete them by dragging them to the right or left.
+![Gameplay 1](src/assets/screenshot1.png)
+![Gameplay 2](src/assets/screenshot2.png)
+
 ## Technologies
-React + Typescript + TailwindCSS and different libraries that are listed in the development commits
+React + Typescript + TailwindCSS + Zustand and different libraries that are listed in the development commits
 ## Deploy on Netlify
 Website hosted on netlify.app server
-[presupuesto-contextapi](https://presupuesto-contetextapi.netlify.app/)
+[waifu-battle-vs](https://waifu-battle-vs.netlify.app/)
+
 ## Developer Notes
-### Managed by Context API
-#### src/reducers/budget-reducer.ts
+### Managed by Zustand
+#### src/store/index.ts
 ```
-import { v4 as uuidv4 } from 'uuid'
-import type { Category, DraftExpense, Expense } from "../types"
+import { create } from "zustand";
+import { WaifubotDB, type WaifubotDBType } from "../data/db";
+import { toast } from "react-toastify";
+import { devtools } from "zustand/middleware";
 
-export type BudgetActions = 
-    { type: 'add-budget' , payload : { budget: number} } |
-    { type: 'show-modal' } |
-    { type: 'close-modal' } |
-    { type: 'add-expense' , payload: { expense: DraftExpense}} |
-    { type: 'remove-expense' , payload: { id: Expense['id'] }} |
-    { type: 'get-expense-by-id' , payload: { id: Expense['id'] } } |
-    { type: 'update-expense' , payload: { expense: Expense } } |
-    { type: 'reset-app' } |
-    { type: 'add-filter-category' , payload: { id: Category['id'] } }
-
-export type BudgetState = {
-    budget: number
+ export type WaifuState = {
+    waifuListFull: WaifubotDBType[]
+    setWaifuList: ( id : number ) => void
+    anime: string
+    setAnime: ( anime : string ) => void
+    currentWaifu: WaifubotDBType[]
+    resetCurrentWaifu: () => void
     modal: boolean
-    expenses: Expense[]
-    editingId: Expense['id']
-    currentCategory: Category['id']
+    setModal: ( estado : boolean ) => void
+    level: number,
+    setLevel: ( level : number ) => void
+    allWaifus: boolean
+    setAllWaifus: ( allWaifus : boolean ) => void
+    challenger: string
+    setChallenger: ( challenger : string ) => void
+    rival: WaifubotDBType
+    lastWaifus: number
+    setRival: () => void
+    selectWaifu: ( idWaifu : number ) => void
+    availableAnimes: WaifubotDBType[]
+    ordenaAnime: () => void
+    animesperYear: () => void
+    modalFinal: boolean
+    setModalFinal: ( modalFinal : boolean ) => void
 }
 
-const initialBudget = () : number => {
-    const localStorageBudget = localStorage.getItem('budget')
-    return localStorageBudget ? +localStorageBudget : 0
-}
-
-const localStorageExpenses = () : Expense[]=> {
-    const localStorageExpenses = localStorage.getItem('expenses')
-    return localStorageExpenses ? JSON.parse( localStorageExpenses ) : []
-}
-
-export const initialState : BudgetState = {
-    budget : initialBudget(),
+export const useWaifuStore = create<WaifuState>()(
+    devtools( ( set , get ) => ({
+    waifuListFull: WaifubotDB,
+    setWaifuList: ( id ) => {
+        set( ( state ) => ({
+            waifuListFull: state.waifuListFull.map( waifu => waifu.id === id ? { ...waifu , seleccionable: true } : waifu )
+        })) 
+    },
+    anime: '',
+    setAnime: ( anime ) => {
+        set( { anime } )
+    },
+    currentWaifu: [],
+    resetCurrentWaifu: () => {
+        set( { currentWaifu : [] } )
+    },
     modal: false,
-    expenses: localStorageExpenses(),
-    editingId: '',
-    currentCategory: ''
-}
-
-const createExpense = ( draftExpense : DraftExpense ) : Expense => {
-    return { 
-      ...draftExpense,
-      id: uuidv4()  
-     }
-}
-
-export const budgetReducer = (
-    state: BudgetState = initialState,
-    action : BudgetActions
-
-) => {
-
-    if( action.type === 'add-budget' ){
-        return {
-            ...state,
-            budget: action.payload.budget
+    setModal: ( modal ) => {
+        set( { modal } )
+        if( modal ){
+            toast.warning( 'Elije una de las casillas de tu Waifu!' ,{
+                position: 'top-left',
+                theme: "dark",
+                autoClose: 3000,
+                hideProgressBar: true
+            })
         }
+    },
+    level: 680, //680
+    setLevel: ( level ) => {
+        set( { level } )
+    },
+    allWaifus: false,
+    setAllWaifus: ( allWaifus ) => {
+        set( { allWaifus } )
+    },
+    challenger: 'x',
+    setChallenger: ( challenger ) => {
+        set( { challenger } )
+    },
+    rival:null,
+    lastWaifus: 100,
+    setRival: () => {
+        
+        const hiddenWaifus = get().waifuListFull.filter( waifu => !waifu.seleccionable )
+        set( { lastWaifus : hiddenWaifus.length } )
+        //console.log( {hiddenWaifus} )
+        const sortbyLevel = hiddenWaifus.sort( (a,b) => a.level - b.level )
+        set({ rival :  sortbyLevel[0] }) 
+        
+    },
+    selectWaifu: ( idWaifu ) => {
+        const currentWaifu = get().waifuListFull.map( waifu => idWaifu === waifu.id ? waifu : null ).filter( waifu => waifu !== null )
+        set( { currentWaifu } )
+        get().setRival()
+        toast.success( `Has seleccionado a ${ currentWaifu[0].name }!` , {
+            position: 'top-center',
+            theme: "dark",
+            autoClose: 2000,
+            hideProgressBar: true
+        })
+    },
+    availableAnimes: [],
+    ordenaAnime: () => {
+        const availableAnimes = get().waifuListFull
+            .filter( w => w.seleccionable )
+            .filter( ( waifu , index , self ) => self.findIndex( w => w.anime === waifu.anime ) === index )
+
+        set( { availableAnimes } )
+    },
+    animesperYear: () => {
+        const availableAnimes = get().availableAnimes.sort( ( a , b ) => Number( a.year ) - Number( b.year ) ) 
+        set( { availableAnimes } )
+    },
+    modalFinal: false,
+    setModalFinal: ( modalFinal ) => {
+        set( { modalFinal } )
     }
 
-    if( action.type === 'show-modal' ){
-        return {
-            ...state,
-            modal: true
-        }
-    }
-
-    if( action.type === 'close-modal' ){
-        return {
-            ...state,
-            modal: false,
-            editingId: ''
-        }
-    }
-
-    if( action.type === 'add-expense' ){
-        const expense = createExpense( action.payload.expense )
-        return {
-            ...state,
-            expenses: [...state.expenses , expense ],
-            modal: false
-        }
-    }
-
-    if( action.type === 'remove-expense' ){
-        return {
-            ...state,
-            expenses: state.expenses.filter( expense => expense.id !== action.payload.id )            
-        }
-    }
-
-    if( action.type === 'get-expense-by-id' ){
-        return {
-            ...state,
-            editingId: action.payload.id,
-            modal: true
-        }
-    }
-
-    if( action.type === 'update-expense' ){
-        return {
-            ...state,
-            expenses: state.expenses.map( expense => expense.id === action.payload.expense.id ? action.payload.expense : expense ),
-            modal: false,
-            editingId: ''
-        }
-    }
- 
-    if( action.type === 'reset-app' ){
-        return {
-            ...state,
-            budget : 0,
-            expenses: [],
-        }
-    }
-
-     if( action.type === 'add-filter-category' ){
-        return {
-            ...state,
-            currentCategory: action.payload.id
-        }
-    }
-    return state
-}
+}) ))
 ```
