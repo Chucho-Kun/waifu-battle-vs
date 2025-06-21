@@ -1,6 +1,8 @@
 # A waifu card game
 A desktop website where you can compete against waifu cards from different anime, unlocking them after beating them in a rock-paper-scissors type game but with numbers.
 
+All character images are loaded from the [myanimelist.net](https://myanimelist.net/) website URL
+
 ![Gameplay 1](src/assets/screenshot1.png)
 ![Gameplay 2](src/assets/screenshot2.png)
 
