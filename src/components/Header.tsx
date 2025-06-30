@@ -3,7 +3,7 @@ import { useWaifuStore } from "../store";
 
 export default function Header() {
 
-    const { setAnime , waifuListFull } = useWaifuStore()
+    const { setAnime , waifuListFull , currentWaifu } = useWaifuStore()
 
   return (
     <>
@@ -23,7 +23,7 @@ export default function Header() {
                 <NavLink
                     to="/battle"
                     className={ ( {isActive}) => isActive ? 'text-pink-700 uppercase font-bold m-2 text-base' : 'text-pink-400 uppercase font-bold m-2 text-base' }
-                    onClick={ () => setAnime( waifuListFull[0].anime )}
+                    onClick={ () => setAnime( currentWaifu.length > 0 ? currentWaifu[0].anime : waifuListFull[0].anime )}
                     
                 >Batalla</NavLink>
 

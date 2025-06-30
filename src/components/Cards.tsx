@@ -19,14 +19,14 @@ export default function Cards() {
           
           <div className="w-24 h-32 bg-gray-200 rounded-md overflow-hidden flex-shrink-0 flex items-center justify-center mr-4">
             <img
-              src={waifu.img}
-              alt={waifu.name}
+              src={ waifu.seleccionable ? waifu.img : '/interrogacion.webp'}
+              alt={ waifu.seleccionable ? waifu.name : '???????'}
               className="object-cover w-full h-full"
             />
           </div>
           
           <div className="flex flex-col justify-center h-full">
-            <h1 className="text-xl font-bold mb-2 text-pink-800">{waifu.name}</h1>
+            <h1 className="text-xl font-bold mb-2 text-pink-800">{ waifu.seleccionable ? waifu.name : '???????'}</h1>
             <h2 className="text-black">{waifu.anime}</h2>
             <p className="text-gray-500 italic">{waifu.company} - {waifu.year}</p>
           </div>

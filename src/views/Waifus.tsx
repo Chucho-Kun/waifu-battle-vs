@@ -5,10 +5,9 @@ import { useWaifuStore } from '../store';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 export default function Waifus() {
 
-  const { anime , setModal, currentWaifu , setAllWaifus , allWaifus , rival , setAnime , lastWaifus } = useWaifuStore()
+  const { anime , currentWaifu , setAllWaifus , rival , lastWaifus } = useWaifuStore()
 
 useEffect( () => {
     const buttonAllWaifus = anime === 'TODOS' ? true : false
@@ -23,17 +22,6 @@ useEffect( () => {
      { lastWaifus < 26 && < h2 className="text-2xl uppercase text-red-700 font-black pt-5 text-center">Waifus Restantes: { lastWaifus }</h2> }
 
      <Cards />
-
-  {<div className="container mx-auto">
-     <div className='flex justify-center items-center'>
-        <button 
-          disabled={ allWaifus }
-          className={`bg-indigo-600 rounded-xl p-3 text-white uppercase font-bold hover:bg-indigo-700 transition-colors w-2xl ${ allWaifus ? 'opacity-50 cursor-default' : 'cursor-pointer' }`}
-          onClick={ () => setAnime( "TODOS" ) }
-          >VER TODAS LAS WAIFUS
-        </button>
-     </div>
-  </div>  }
 
       <VentanaFlotante />
 
@@ -53,17 +41,6 @@ useEffect( () => {
             </div>
           </div>
     </div> }
-
-    <div className='flex justify-center items-center'>
-
-        <button 
-          disabled={currentWaifu.length < 1}
-          className={`mb-20 rounded-xl p-3 text-white uppercase font-bold w-100 ${ currentWaifu.length < 1 ? 'opacity-50 cursor-default bg-gray-600' : 'cursor-pointer bg-indigo-600 hover:bg-indigo-700 transition-colors' }`}
-          onClick={ () => setModal( true ) }
-          >{ currentWaifu.length == 0 ? 'selecciona una waifu' : 'retar a duelo' }
-        </button>
-
-    </div>
     
     <ToastContainer />
 
