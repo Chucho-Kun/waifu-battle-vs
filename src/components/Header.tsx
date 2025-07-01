@@ -14,7 +14,7 @@ export default function Header() {
             </div>
 
         </div>
-        <nav className="flex justify-center">
+        <nav className="flex justify-center bg-black">
                 <NavLink
                     to="/"
                     className={ ( {isActive}) => isActive ? 'text-pink-700 uppercase font-bold m-2 text-base' : 'text-pink-400 uppercase font-bold m-2 text-base' }
