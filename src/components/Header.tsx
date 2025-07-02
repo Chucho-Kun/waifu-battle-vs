@@ -31,7 +31,7 @@ export default function Header() {
                     className={ ( {isActive}) => isActive ? 'text-orange-500 uppercase font-bold m-2 text-base' : 'text-pink-400 uppercase font-bold m-2 text-base' }
                     onClick={ () => setAnime( currentWaifu.length > 0 ? currentWaifu[0].anime : waifuListFull[0].anime )}
                     
-                >Batalla</NavLink>
+                >Animes</NavLink>
 
                 <NavLink
                     to="/waifus"

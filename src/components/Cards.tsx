@@ -10,6 +10,7 @@ export default function Cards() {
        <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
       {waifuListFull.map((waifu, i) => (
         ( anime === 'TODOS' || waifu.anime === anime) &&
+         waifu.seleccionable && (
         <button 
             key={i} 
             disabled={!waifu.seleccionable}
@@ -31,6 +32,7 @@ export default function Cards() {
             <p className="text-gray-500 italic">{waifu.company} - {waifu.year}</p>
           </div>
         </button>
+          )
       ))}
     </div>
   )
