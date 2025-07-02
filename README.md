@@ -3,8 +3,9 @@ A web-based video game where you can choose and compete against waifu cards from
 
 All character images are loaded from the [myanimelist.net](https://myanimelist.net/) website URL
 
-![Gameplay 1](src/assets/screenshot1.png)
-![Gameplay 2](src/assets/screenshot2.png)
+![Gameplay 1](src/assets/portada.png)
+![Gameplay 2](src/assets/pantalla1.png)
+![Gameplay 3](src/assets/pantalla2.png)
 
 ## Technologies
 React + Typescript + TailwindCSS + Zustand and different libraries that are listed in the development commits
