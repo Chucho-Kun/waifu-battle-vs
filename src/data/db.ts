@@ -17,7 +17,7 @@ export const WaifubotDB : WaifubotDBType[] = [
         year:"2012",
         company:"A-1 Pictures",
         img:"https://cdn.myanimelist.net/images/characters/9/192515.jpg",
-        level: 481,
+        level: 451,
         seleccionable:true
     },{
         id:2,
@@ -264,12 +264,12 @@ export const WaifubotDB : WaifubotDBType[] = [
         seleccionable:false
     },{
         id:29,
-        name:"Illyasviel von Einzbern",
+        name:"Illyasviel Von Einzbern",
         anime:"Fate/Stay Night",
         year:"2006",
         company:"Studio Deen",
         img:"https://cdn.myanimelist.net/images/characters/14/346384.jpg",
-        level: 678,
+        level: 677,
         seleccionable:false
     },{
         id:30,

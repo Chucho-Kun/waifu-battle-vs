@@ -1,9 +1,12 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useWaifuStore } from "../store";
+import { useMemo } from "react";
 
 export default function Header() {
 
     const { setAnime , waifuListFull , currentWaifu } = useWaifuStore()
+    const { pathname } = useLocation()
+    const isHome = useMemo( () => pathname === '/' , [ pathname ] )
 
   return (
     <>
@@ -14,26 +17,31 @@ export default function Header() {
             </div>
 
         </div>
-        <nav className="flex justify-center bg-black">
+
+            <nav className="flex justify-center bg-black h-10">
+             { !isHome && 
+        <>
                 <NavLink
                     to="/"
-                    className={ ( {isActive}) => isActive ? 'text-pink-700 uppercase font-bold m-2 text-base' : 'text-pink-400 uppercase font-bold m-2 text-base' }
+                    className={ ( {isActive}) => isActive ? 'text-orange-500 uppercase font-bold m-2 text-base' : 'text-pink-400 uppercase font-bold m-2 text-base' }
                 >Inicio</NavLink>
 
                 <NavLink
                     to="/battle"
-                    className={ ( {isActive}) => isActive ? 'text-pink-700 uppercase font-bold m-2 text-base' : 'text-pink-400 uppercase font-bold m-2 text-base' }
+                    className={ ( {isActive}) => isActive ? 'text-orange-500 uppercase font-bold m-2 text-base' : 'text-pink-400 uppercase font-bold m-2 text-base' }
                     onClick={ () => setAnime( currentWaifu.length > 0 ? currentWaifu[0].anime : waifuListFull[0].anime )}
                     
                 >Batalla</NavLink>
 
                 <NavLink
                     to="/waifus"
-                    className={ ( {isActive}) => isActive ? 'text-pink-700 uppercase font-bold m-2 text-base' : 'text-pink-400 uppercase font-bold m-2 text-base' }
+                    className={ ( {isActive}) => isActive ? 'text-orange-500 uppercase font-bold m-2 text-base' : 'text-pink-400 uppercase font-bold m-2 text-base' }
                     onClick={ () => setAnime('TODOS') }
                 >Waifus</NavLink>
-            </nav>
-
+            
+        </> 
+        }
+        </nav>
             <hr />
     </>    
   )

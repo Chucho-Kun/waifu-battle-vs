@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { toast } from "react-toastify"
 import { useWaifuStore } from "../store"
+import { useNavigate } from "react-router-dom"
 
 type GameNumbersProps = {
     waifuLevel: number
@@ -15,6 +16,13 @@ export default function GameNumbers( { waifuLevel } : GameNumbersProps  ) {
 
     const waifuArray = waifuLevel.toString().split('').map(Number) // = [ 1 , 5 , 8 ] dependiendo de la waifu
     const rivalArray = rival.level.toString().split('').map(Number) //  = [ 8 , 4 , 2 ] dependiendo de la rival
+
+    const navigate = useNavigate()
+
+    const handleSuccess = () => {
+      setAnime( rival.anime )
+      navigate( "/battle" )
+    }
 
         const rivalRandom  = () => {
         const index_ = Math.floor( Math.random() *rivalArray.length )
@@ -80,7 +88,7 @@ export default function GameNumbers( { waifuLevel } : GameNumbersProps  ) {
                 }else{
 
                   toast.success(
-                    <div className="flex items-center gap-4 cursor-pointer" onClick={() => setAnime( rival.anime )}>
+                    <div className="flex items-center gap-4 cursor-pointer" onClick={ handleSuccess }>
                         <img src={ rival.img } alt="Waifu" className="w-12 rounded-xl" />
                         <div>
                         <div className="font-bold text-white">¡Felicidades!</div>

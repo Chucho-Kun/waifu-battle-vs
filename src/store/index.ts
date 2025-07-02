@@ -1,11 +1,12 @@
 import { create } from "zustand";
-import { WaifubotDB, type WaifubotDBType } from "../data/db";
+import { WaifubotDB, type WaifubotDBType } from '../data/db';
 import { toast } from "react-toastify";
 import { devtools } from "zustand/middleware";
 
  export type WaifuState = {
     waifuListFull: WaifubotDBType[]
     setWaifuList: ( id : number ) => void
+    resetWaifuList: () => void
     anime: string
     setAnime: ( anime : string ) => void
     currentWaifu: WaifubotDBType[]
@@ -31,13 +32,20 @@ import { devtools } from "zustand/middleware";
 
 export const useWaifuStore = create<WaifuState>()(
     devtools( ( set , get ) => ({
-    waifuListFull: WaifubotDB,
+    waifuListFull: (() => {
+        const data = localStorage.getItem('waifuListStorage')
+        return data ? JSON.parse( data ) : WaifubotDB
+    })(),
     setWaifuList: ( id ) => {
         set( ( state ) => ({
             waifuListFull: state.waifuListFull.map( waifu => waifu.id === id ? { ...waifu , seleccionable: true } : waifu )
         })) 
+        localStorage.setItem( 'waifuListStorage' , JSON.stringify( get().waifuListFull ) )
     },
-    anime: '',
+    resetWaifuList: () => {
+        get().waifuListFull = WaifubotDB
+    },
+    anime: WaifubotDB[0].anime,
     setAnime: ( anime ) => {
         set( { anime } )
     },
@@ -109,16 +117,3 @@ export const useWaifuStore = create<WaifuState>()(
     }
 
 }) ))
-
-/** //const animes = WaifubotDB.filter( ( waifu , index , self ) => self.findIndex( w => w.anime === waifu.anime ) === index)
-    //const animesbyYear = animes.sort( (a,b) => Number(a.year) - Number(b.year) ) */
-
-/**const handleCharacter = ( idWaifu : number ) => {
-        const waifuData = waifuListFull.map( waifu => idWaifu === waifu.id ? waifu : null ).filter( waifu => waifu !== null ) 
-        addCurrentWaifu( waifuData )
-        setRival()
-    } */
-  
-  
-  
-        //const [ allWaifus , setAllWaifus ] = useState( false )
