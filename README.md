@@ -1,5 +1,5 @@
-# A waifu card game
-A desktop website where you can compete against waifu cards from different anime, unlocking them after beating them in a rock-paper-scissors type game but with numbers.
+# A web-based waifu card game
+A web-based video game where you can choose and compete against waifu cards from different anime, unlocking them after beating them in a rock-paper-scissors-style game, but with numbers. The site features a welcome cover and two sections for choosing your character (by anime or by waifu list).
 
 All character images are loaded from the [myanimelist.net](https://myanimelist.net/) website URL
 
@@ -17,13 +17,14 @@ Website hosted on netlify.app server
 #### src/store/index.ts
 ```
 import { create } from "zustand";
-import { WaifubotDB, type WaifubotDBType } from "../data/db";
+import { WaifubotDB, type WaifubotDBType } from '../data/db';
 import { toast } from "react-toastify";
 import { devtools } from "zustand/middleware";
 
  export type WaifuState = {
     waifuListFull: WaifubotDBType[]
     setWaifuList: ( id : number ) => void
+    resetWaifuList: () => void
     anime: string
     setAnime: ( anime : string ) => void
     currentWaifu: WaifubotDBType[]
@@ -49,13 +50,20 @@ import { devtools } from "zustand/middleware";
 
 export const useWaifuStore = create<WaifuState>()(
     devtools( ( set , get ) => ({
-    waifuListFull: WaifubotDB,
+    waifuListFull: (() => {
+        const data = localStorage.getItem('waifuListStorage')
+        return data ? JSON.parse( data ) : WaifubotDB
+    })(),
     setWaifuList: ( id ) => {
         set( ( state ) => ({
             waifuListFull: state.waifuListFull.map( waifu => waifu.id === id ? { ...waifu , seleccionable: true } : waifu )
         })) 
+        localStorage.setItem( 'waifuListStorage' , JSON.stringify( get().waifuListFull ) )
     },
-    anime: '',
+    resetWaifuList: () => {
+        get().waifuListFull = WaifubotDB
+    },
+    anime: WaifubotDB[0].anime,
     setAnime: ( anime ) => {
         set( { anime } )
     },
@@ -125,7 +133,6 @@ export const useWaifuStore = create<WaifuState>()(
     setModalFinal: ( modalFinal ) => {
         set( { modalFinal } )
     }
-
 }) ))
 ```
 ### Managed by React Router
