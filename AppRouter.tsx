@@ -1,12 +1,15 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Layout from './src/layouts/Layout';
-import { lazy, Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
 
 const Portada = lazy( () => import('./src/views/Portada') )
 const Battle = lazy( () => import('./src/views/Battle') )
 const Waifus = lazy( () => import('./src/views/Waifus') )
 
 export default function AppRouter() {
+
+  React.useState(0)
+
   return (
     <BrowserRouter>
         <Routes>
@@ -23,7 +26,7 @@ export default function AppRouter() {
                 <Route path='/waifus' element={ 
                   <Suspense fallback="Cargando..." > <Waifus /> </Suspense>
                  } />
-                 
+
             </Route>
         </Routes>
     </BrowserRouter>
