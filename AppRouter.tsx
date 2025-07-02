@@ -1,18 +1,29 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Portada from './src/views/Portada';
-import Waifus from './src/views/Waifus';
-import Battle from './src/views/Battle';
 import Layout from './src/layouts/Layout';
-import React from 'react';
+import { lazy, Suspense } from 'react';
+
+const Portada = lazy( () => import('./src/views/Portada') )
+const Battle = lazy( () => import('./src/views/Battle') )
+const Waifus = lazy( () => import('./src/views/Waifus') )
 
 export default function AppRouter() {
   return (
     <BrowserRouter>
         <Routes>
             <Route element={ <Layout /> }>
-                <Route path='/' element={ <Portada /> } index />
-                <Route path='/battle' element={ <Battle /> } />
-                <Route path='/waifus' element={ <Waifus /> } />
+                
+                <Route path='/' element={ 
+                  <Suspense fallback="Cargando..." > <Portada /> </Suspense>
+                 } index />
+                
+                <Route path='/battle' element={ 
+                  <Suspense fallback="Cargando..."> <Battle /> </Suspense>   
+                 } />
+
+                <Route path='/waifus' element={ 
+                  <Suspense fallback="Cargando..." > <Waifus /> </Suspense>
+                 } />
+                 
             </Route>
         </Routes>
     </BrowserRouter>

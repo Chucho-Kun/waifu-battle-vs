@@ -13,7 +13,7 @@ export default function Header() {
         <div className="text-3xl text-center bg-pink-700 p-10 text-white font-black">
             WAIFU BATTLE VS
             <div>
-            <span className="block text-pink-200 text-xs">v.2.0.0</span>
+            <span className="block text-pink-200 text-xs">v.2.1.0</span>
             </div>
 
         </div>
