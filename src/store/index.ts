@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { WaifubotDB, type WaifubotDBType } from '../data/db';
 import { toast } from "react-toastify";
 import { devtools } from "zustand/middleware";
+import { waifuQuote } from "../services/WaifuQuoteService";
 
  export type WaifuState = {
     waifuListFull: WaifubotDBType[]
@@ -28,6 +29,8 @@ import { devtools } from "zustand/middleware";
     animesperYear: () => void
     modalFinal: boolean
     setModalFinal: ( modalFinal : boolean ) => void
+    rivalQuote: string
+    getRivalQuote: () => Promise<void>
 }
 
 export const useWaifuStore = create<WaifuState>()(
@@ -83,9 +86,10 @@ export const useWaifuStore = create<WaifuState>()(
         
         const hiddenWaifus = get().waifuListFull.filter( waifu => !waifu.seleccionable )
         set( { lastWaifus : hiddenWaifus.length } )
-        //console.log( {hiddenWaifus} )
         const sortbyLevel = hiddenWaifus.sort( (a,b) => a.level - b.level )
         set({ rival :  sortbyLevel[0] }) 
+        set( { rivalQuote: '...' } )
+        get().getRivalQuote()
         
     },
     selectWaifu: ( idWaifu ) => {
@@ -114,6 +118,11 @@ export const useWaifuStore = create<WaifuState>()(
     modalFinal: false,
     setModalFinal: ( modalFinal ) => {
         set( { modalFinal } )
+    },
+    rivalQuote: '...',
+    getRivalQuote: async () => {
+        const rivalQuote = await waifuQuote( get().rival.name )
+        set( { rivalQuote } )
     }
 
 }) ))

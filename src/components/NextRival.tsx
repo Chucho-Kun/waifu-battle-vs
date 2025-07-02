@@ -2,7 +2,7 @@ import { useWaifuStore } from "../store"
 
 export default function NextRival() {
 
-    const { currentWaifu , rival , setModal } = useWaifuStore()
+    const { currentWaifu , rival , setModal , rivalQuote } = useWaifuStore()
 
   return (
     <div>
@@ -30,7 +30,16 @@ export default function NextRival() {
       </div>
     </div>
 
-    <div className="flex justify-center items-center">
+    <div className="flex flex-col  items-center">
+    
+    <div className="relative inline-block bg-pink-100 text-pink-800 px-6 py-3 rounded-xl shadow-md font-semibold text-lg mb-4 max-w-sm">
+        { rivalQuote }
+        <span
+            className="absolute -top-3 right-4 w-0 h-0"
+            style={{borderLeft: "16px solid transparent",borderRight: "0 solid transparent",borderBottom: "16px solid #fce7f3"}}
+        />
+    </div>
+
       <button
         disabled={currentWaifu.length < 1}
         className={`mt-4 mb-20 rounded-xl p-3 text-white uppercase font-bold w-[450px] ${
