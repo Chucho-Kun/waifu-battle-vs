@@ -16,15 +16,21 @@ export default function AppRouter() {
             <Route element={ <Layout /> }>
                 
                 <Route path='/' element={ 
-                  <Suspense fallback="Cargando..." > <Portada /> </Suspense>
+                  <Suspense fallback={
+                    <div className="text-center text-pink-600 text-xl font-bold py-10">Cargando...</div>
+                  } > <Portada /> </Suspense>
                  } index />
                 
                 <Route path='/battle' element={ 
-                  <Suspense fallback="Cargando..."> <Battle /> </Suspense>   
+                  <Suspense fallback={
+                    <div className="text-center text-pink-600 text-xl font-bold py-10">Cargando...</div>
+                  }> <Battle /> </Suspense>   
                  } />
 
                 <Route path='/waifus' element={ 
-                  <Suspense fallback="Cargando..." > <Waifus /> </Suspense>
+                  <Suspense fallback={
+                    <div className="text-center text-pink-600 text-xl font-bold py-10">Cargando...</div>
+                  } > <Waifus /> </Suspense>
                  } />
 
             </Route>
