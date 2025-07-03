@@ -18,7 +18,7 @@ useEffect( () => {
   return (
     <>
     
-     <h2 className="text-xl uppercase text-black font-bold pt-5 text-center">Lista de las Waifus desbloqueadas:</h2>
+     <h2 className="text-xl uppercase text-black font-bold pt-5 text-center">Selecciona alguna de las Waifus desbloqueadas:</h2>
 
      { lastWaifus < 26 && < h2 className="text-2xl uppercase text-red-700 font-black pt-5 text-center">Waifus Restantes: { lastWaifus }</h2> }
 

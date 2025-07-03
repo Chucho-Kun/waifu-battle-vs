@@ -33,6 +33,12 @@ import { waifuQuote } from "../services/WaifuQuoteService";
     getRivalQuote: () => Promise<void>
 }
 
+function randomPhrase( phrase : string , autor : string ){
+    const phraseArray = phrase.split(',') 
+    const selected = Math.floor(Math.random()*phraseArray.length)
+    return phraseArray[selected] +'@'+ autor
+}
+
 export const useWaifuStore = create<WaifuState>()(
     devtools( ( set , get ) => ({
     waifuListFull: (() => {
@@ -80,7 +86,7 @@ export const useWaifuStore = create<WaifuState>()(
     setChallenger: ( challenger ) => {
         set( { challenger } )
     },
-    rival:null,
+    rival: null,
     lastWaifus: 100,
     setRival: () => {
         
@@ -121,7 +127,8 @@ export const useWaifuStore = create<WaifuState>()(
     },
     rivalQuote: '...',
     getRivalQuote: async () => {
-        const rivalQuote = await waifuQuote( get().rival.name )
+        const rivalPhrase = get().rival.phrase
+        const rivalQuote = rivalPhrase === '' ? await waifuQuote( get().rival.name ) : randomPhrase( rivalPhrase , get().rival.name )
         set( { rivalQuote } )
     }
 

@@ -3,24 +3,14 @@ import { API_Schema } from "../schemas/waifuAPISchema";
 
 export async function waifuQuote( character : string ){
 
-    const url = `https://api.animechan.io/v1/quotes/random?character=${ character }`;
+    const url = `https://api.animechan.io/v1/quotes/random?character=${encodeURIComponent(character)}`;
+    console.log(url)
     try{
-        const { data } = await axios( url )
-        console.log( '>>>' , data )
+        const { data } = await axios( url ,  { headers: {'x-api-key': import.meta.env.VITE_OPENROUTER_KEY}})
         const result = API_Schema.safeParse( data )
-        console.log( '***' , result )
-        console.log( '***' , result.error )
-        return result.data?.status === "success" ? result.data.content +' - '+ result.data.character.name : '* Solo la mira sin decir nada *'
+        return result.data?.status ? result.data.data.content +' @ '+ result.data.data.character.name : '* He prepares to attack without showing up *'
         
-    } catch( error ) {
-        console.log( '---' , error )
-        return 'La API no conecta en este momento'
+   } catch( error ) {
+        return '>> She just looks at her without saying anything. <<'
     }
 }
-/**
- * data
-anime: {id: 188, name: 'One Punch Man', altName: 'One Punch Man'}
-character: {id: 213, name: 'Saitama'}
-content: "I'm just a guy who's a hero for fun."
-status:"success"
- */

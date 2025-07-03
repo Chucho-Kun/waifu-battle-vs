@@ -4,6 +4,11 @@ export default function NextRival() {
 
     const { currentWaifu , rival , setModal , rivalQuote } = useWaifuStore()
 
+    const handleQuote = ( quote : string ) => {
+      const phrase = quote.split('@');
+      return <><div>{ phrase[0] }</div><span className="font-bold text-black">{ phrase[1] }</span></>
+    }
+
   return (
     <div>
     {currentWaifu.length > 0 && (
@@ -33,7 +38,7 @@ export default function NextRival() {
     <div className="flex flex-col  items-center">
     
     <div className="relative inline-block bg-pink-100 text-pink-800 px-6 py-3 rounded-xl shadow-md font-semibold text-lg mb-4 max-w-sm">
-        { rivalQuote }
+        { handleQuote( rivalQuote ) } 
         <span
             className="absolute -top-3 right-4 w-0 h-0"
             style={{borderLeft: "16px solid transparent",borderRight: "0 solid transparent",borderBottom: "16px solid #fce7f3"}}
