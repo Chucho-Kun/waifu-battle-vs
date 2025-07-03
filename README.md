@@ -7,6 +7,9 @@ All character images are loaded from the [myanimelist.net](https://myanimelist.n
 ![Gameplay 2](src/assets/pantalla1.png)
 ![Gameplay 3](src/assets/pantalla2.png)
 
+![Gameplay 5](src/assets/show2.png)
+![Gameplay 6](src/assets/show3.png)
+
 ## Technologies
 React + Typescript + TailwindCSS + Zustand + Axios + Zod + React Router and different libraries that are listed in the development commits
 ## Deploy on Netlify
@@ -186,14 +189,14 @@ import { API_Schema } from "../schemas/waifuAPISchema";
 
 export async function waifuQuote( character : string ){
 
-    const url = `https://api.animechan.io/v1/quotes/random?character=${ character }`;
+    const url = `https://api.animechan.io/v1/quotes/random?character=${encodeURIComponent(character)}`;
     try{
-        const { data } = await axios( url )
+        const { data } = await axios( url ,  { headers: {'x-api-key': import.meta.env.VITE_OPENROUTER_KEY}})
         const result = API_Schema.safeParse( data )
-        return result.data?.status === "success" ? result.data.content +' - '+ result.data.character.name : '* Solo la mira sin decir nada *'
+        return result.data?.status ? result.data.data.content +' @ '+ result.data.data.character.name : '* He prepares to attack without showing up *'
         
-    } catch( error ) {
-        return 'La API no conecta en este momento'
+   } catch( error ) {
+        return '>> She just looks at her without saying anything. <<'
     }
 }
 ```
