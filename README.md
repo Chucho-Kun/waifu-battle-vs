@@ -8,7 +8,7 @@ All character images are loaded from the [myanimelist.net](https://myanimelist.n
 ![Gameplay 3](src/assets/pantalla2.png)
 
 ## Technologies
-React + Typescript + TailwindCSS + Zustand and different libraries that are listed in the development commits
+React + Typescript + TailwindCSS + Zustand + Axios + Zod + React Router and different libraries that are listed in the development commits
 ## Deploy on Netlify
 Website hosted on netlify.app server
 [waifu-battle-vs](https://waifu-battle-vs.netlify.app/)
@@ -140,24 +140,60 @@ export const useWaifuStore = create<WaifuState>()(
 #### AppRouter.tsx
 ```
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Portada from './src/views/Portada';
-import Waifus from './src/views/Waifus';
-import Battle from './src/views/Battle';
 import Layout from './src/layouts/Layout';
-import React from 'react';
+import { lazy, Suspense } from 'react';
+
+const Portada = lazy( () => import('./src/views/Portada') )
+const Battle = lazy( () => import('./src/views/Battle') )
+const Waifus = lazy( () => import('./src/views/Waifus') )
 
 export default function AppRouter() {
+
   return (
     <BrowserRouter>
         <Routes>
             <Route element={ <Layout /> }>
-                <Route path='/' element={ <Portada /> } index />
-                <Route path='/battle' element={ <Battle /> } />
-                <Route path='/waifus' element={ <Waifus /> } />
+                
+                <Route path='/' element={ 
+                  <Suspense fallback={
+                    <div className="text-center text-pink-600 text-xl font-bold py-10">Cargando...</div>
+                  } > <Portada /> </Suspense>
+                 } index />
+                
+                <Route path='/battle' element={ 
+                  <Suspense fallback={
+                    <div className="text-center text-pink-600 text-xl font-bold py-10">Cargando...</div>
+                  }> <Battle /> </Suspense>   
+                 } />
+
+                <Route path='/waifus' element={ 
+                  <Suspense fallback={
+                    <div className="text-center text-pink-600 text-xl font-bold py-10">Cargando...</div>
+                  } > <Waifus /> </Suspense>
+                 } />
+
             </Route>
         </Routes>
     </BrowserRouter>
   )
 }
+```
+### Managed by Anime Chan API (Axios and Zod)
+#### services/WaifuQuoteService.ts
+```
+import axios from "axios"
+import { API_Schema } from "../schemas/waifuAPISchema";
 
+export async function waifuQuote( character : string ){
+
+    const url = `https://api.animechan.io/v1/quotes/random?character=${ character }`;
+    try{
+        const { data } = await axios( url )
+        const result = API_Schema.safeParse( data )
+        return result.data?.status === "success" ? result.data.content +' - '+ result.data.character.name : '* Solo la mira sin decir nada *'
+        
+    } catch( error ) {
+        return 'La API no conecta en este momento'
+    }
+}
 ```
