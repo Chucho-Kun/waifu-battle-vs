@@ -74,7 +74,7 @@ export const useWaifuStore = create<WaifuState>()(
             })
         }
     },
-    level: 680, //680
+    level: 0, //680
     setLevel: ( level ) => {
         set( { level } )
     },
@@ -99,6 +99,8 @@ export const useWaifuStore = create<WaifuState>()(
         
     },
     selectWaifu: ( idWaifu ) => {
+        set({ level: get().level + 1 })
+
         const currentWaifu = get().waifuListFull.map( waifu => idWaifu === waifu.id ? waifu : null ).filter( waifu => waifu !== null )
         set( { currentWaifu } )
         get().setRival()

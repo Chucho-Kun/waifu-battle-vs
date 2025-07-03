@@ -2,7 +2,7 @@ import { useWaifuStore } from "../store"
 
 export default function NextRival() {
 
-    const { currentWaifu , rival , setModal , rivalQuote } = useWaifuStore()
+    const { currentWaifu , rival , setModal , rivalQuote , level } = useWaifuStore()
 
     const handleQuote = ( quote : string ) => {
       const phrase = quote.split('@');
@@ -11,7 +11,7 @@ export default function NextRival() {
 
   return (
     <div>
-    {currentWaifu.length > 0 && (
+    {currentWaifu.length > 0 && level > 0 && (
   <>
     <div className="flex justify-center items-center">
       <div className="flex gap-8 bg-white rounded p-6 items-center transition-colors">

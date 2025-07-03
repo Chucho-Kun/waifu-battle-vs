@@ -4,12 +4,13 @@ import { WaifubotDB } from "../data/db";
 
 export default function Portada() {
 
-  const { setAnime , resetWaifuList , waifuListFull } = useWaifuStore()
+  const { setAnime , resetWaifuList , waifuListFull , setLevel } = useWaifuStore()
 
   const restart = () => {
     localStorage.clear()
     resetWaifuList()
     setAnime( WaifubotDB[0].anime )
+    setLevel(0)
   }
 
   return (
