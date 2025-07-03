@@ -6,8 +6,10 @@ export async function waifuQuote( character : string ){
     const url = `https://api.animechan.io/v1/quotes/random?character=${ character }`;
     try{
         const { data } = await axios( url )
+        console.log( '>>>' , data )
         const result = API_Schema.safeParse( data )
         console.log( '***' , result )
+        console.log( '***' , result.error )
         return result.data?.status === "success" ? result.data.content +' - '+ result.data.character.name : '* Solo la mira sin decir nada *'
         
     } catch( error ) {
