@@ -23,3 +23,26 @@ anime: {id: 188, name: 'One Punch Man', altName: 'One Punch Man'}
 character: {id: 213, name: 'Saitama'}
 content: "I'm just a guy who's a hero for fun."
 status:"success" */
+
+/**
+ * zod
+ 
+ {
+    "success": true,
+    "data": {
+        "status": "success",
+        "data": {
+            "content": "There are some things in life that will only be understood through words.",
+            "anime": {
+                "id": 538,
+                "name": "Fullmetal Alchemist",
+                "altName": "Fullmetal Alchemist"
+            },
+            "character": {
+                "id": 1885,
+                "name": "Winry Rockbell"
+            }
+        }
+    }
+}
+ */
